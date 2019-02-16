@@ -1,41 +1,54 @@
-var squares = document.querySelectorAll(".square-block");
 var numSquares = 6;
-var colors,pickedColor;
+var colors = [];
+var pickedColor;	
+var squares = document.querySelectorAll(".square-block");
 var messageDisplay = document.querySelector(".message");
 var h1= document.querySelector("h1");
 var colorDisplay = document.getElementById("colorDisplay");
 var resetButton = document.querySelector(".resetButton");
 var modeBtns = document.querySelectorAll(".modeBtn");
 
+init();
 
-for (var i = 0; i < modeBtns.length; i++) {
-	modeBtns[i].addEventListener("click", function(){
-		modeBtns.forEach(button => {
-			button.classList.remove("selected");
-		});
-		this.classList.add("selected");
+function init(){
+	setModeButtons();
+	setSquares();
+	resetGame();
+};
 
-		numSquares = this.textContent == "Easy" ? 3 : 6;	
-		resetGame();
-	});	
+function setModeButtons(){
+	for (var i = 0; i < modeBtns.length; i++) {
+		modeBtns[i].addEventListener("click", function(){
+			modeBtns.forEach(button => {
+				button.classList.remove("selected");
+			});
+			this.classList.add("selected");
+			numSquares = this.textContent == "Easy" ? 3 : 6;	
+			resetGame();
+		});	
+	}
+	resetButton.addEventListener("click", resetGame);
 }
-resetButton.addEventListener("click",resetGame);
 
-squares.forEach((square) => {
-	square.addEventListener("click", function(){
-		var clickedColor = this.style.backgroundColor;
-		if ( clickedColor == pickedColor) {
-			messageDisplay.textContent = "Correct!";
-			resetButton.textContent = "Play Again?";
-			changeColor(clickedColor);
-		}
-		else {
-			this.style.backgroundColor = "#232323";
-			messageDisplay.textContent = "Try Again"; 
+function setSquares(){
+	squares.forEach((square) => {
+		square.addEventListener("click", function(){
+			var clickedColor = this.style.backgroundColor;
+			if ( clickedColor == pickedColor) {
+				messageDisplay.textContent = "Correct!";
+				resetButton.textContent = "Play Again?";
+				changeColor(clickedColor);
+			}
+			else {
+				this.style.backgroundColor = "#232323";
+				messageDisplay.textContent = "Try Again"; 
 
-		}
+			}
+		});
 	});
-});
+}
+
+
 
 function changeColor(color){
 	h1.style.backgroundColor = color;
